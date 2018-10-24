@@ -2,7 +2,9 @@
 """
 Created on Wed Oct 24 05:31:15 2018
 
-@author: percy
+@author: PCLee
+Demonstration of feature scaling with linear regression model 
+for feature selection
 """
 
 import pandas as pd
@@ -81,3 +83,6 @@ print( lr.score(X_test_std, y_test) )
 lr.fit(X_train_minmax, y_train)
 slot.append( lr.score(X_test_minmax, y_test))
 print( lr.score(X_test_minmax, y_test) )
+
+plt.figure()
+plt.bar( ['original', 'standard', 'normal'], slot)
