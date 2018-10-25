@@ -44,12 +44,12 @@ def FeatureSelection(X, y, sfm):
 
 df_wine = pd.read_csv('../Data/winequality-red.csv', sep=';')
 df_shape = df_wine.shape
-X, y = df_wine.iloc[:, 0:df_shape[1]-2],  df_wine.iloc[:, df_shape[1]-1]
+X, y = df_wine.iloc[:, 0:df_shape[1]-1],  df_wine.iloc[:, df_shape[1]-1]
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.3, random_state=0)
 
 stdsc = StandardScaler()
 stdsc.mean_ = 0
-stdsc.var_ = 2.5
+stdsc.var_ = 1.0
 X_train_std = stdsc.fit_transform(X_train)
 X_test_std = stdsc.fit_transform(X_test)
 
@@ -58,7 +58,7 @@ X_train_minmax = normalsc.fit_transform( X_train )
 X_test_minmax = normalsc.fit_transform( X_test )
 
 lr = LogisticRegression(penalty='l1', C=.1)
-sfm = SelectFromModel(lr, threshold=0.25)
+sfm = SelectFromModel(lr, threshold=0.1)
 
 original_feature, original_support = FeatureSelection(X_train, y_train, sfm)
 print('original: {}'.format(original_feature))
@@ -68,6 +68,8 @@ normal_feature, normal_support= FeatureSelection(X_train_minmax, y_train, sfm)
 print('minmax: {}'.format(std_feature))
 
 plt.figure()
+plt.xlabel('iterations')
+plt.ylabel('n_features')
 plt.plot( original_support, color='blue' )
 plt.plot( std_support, color='red' )
 plt.plot( normal_support, color='green' )
