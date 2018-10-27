@@ -50,7 +50,7 @@ stdsc = StandardScaler()
 stdsc.mean_ = 0
 stdsc.var_ = 1.0
 X_train_std = stdsc.fit_transform(X_train)
-X_test_std = stdsc.fit_transform(X_test)
+X_test_std = stdsc.transform(X_test)
 
 normalsc = MinMaxScaler()
 X_train_minmax = normalsc.fit_transform( X_train )
