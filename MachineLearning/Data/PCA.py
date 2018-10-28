@@ -94,6 +94,7 @@ for i in range(2, X_train.shape[1], 1):
 plt.figure()
 plt.xlabel('feature number')
 plt.ylabel('Accuraccy') 
+plt.ylim((0.4, 1.0))
 plt.plot(np.arange(2, 2+len(train_accu)), train_accu, label='Train')
 plt.plot(np.arange(2, 2+len(test_accu)), test_accu, label='Test')
 plt.legend(loc='best')
