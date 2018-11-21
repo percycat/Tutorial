@@ -11,6 +11,7 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
 
 def sigmoid(z):
     return 1.0 / (1.0 + np.exp(-z))
@@ -80,3 +81,38 @@ for quality, mv in zip( range(1, np.max(y)), mean_vec):
 eigen_vals, eigen_vecs = np.linalg.eigh( np.linalg.inv(S_w).dot(S_B) )
 eigen_vals = np.flip( eigen_vals, axis=0) #reverse the order of eigenvalues
 eigen_vecs = np.flip( eigen_vecs, axis=0) #reverse the order of eigenvectors
+
+
+'''
+Transformation
+'''
+top_k =  dim // 2
+eigen_pairs = [ (eigen_vals[i], eigen_vecs[:,i]) for i in range( top_k ) ]
+W = np.hstack( ( eigen_pairs[k][1][:,np.newaxis] ) for k in range( top_k )  )
+
+
+'''
+Test
+'''
+lr = LogisticRegression()
+X_train_lda = X_train_std.dot(W)
+X_test_lda = X_test_std.dot(W)
+lr.fit(X_train_lda, y_train)
+train_score = lr.score(X_train_lda, y_train) 
+test_score = lr.score(X_test_lda, y_test) 
+print( 'Trainning accuracy: {}'.format(train_score))
+print( 'Test accuracy: {}'.format(test_score))
+
+
+'''
+Using scikit-learn LDA module
+'''
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
+lda = LDA(n_components=top_k)
+X_train_lda = lda.fit_transform(X_train_std, y_train)
+X_test_lda = lda.transform(X_test_std)
+lr.fit(X_train_lda, y_train)
+train_score = lr.score(X_train_lda, y_train) 
+test_score = lr.score(X_test_lda, y_test) 
+print( 'Scikit-learn Trainning accuracy: {}'.format(train_score))
+print( 'Scikit-learn Test accuracy: {}'.format(test_score))
