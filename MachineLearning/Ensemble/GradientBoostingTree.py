@@ -20,7 +20,7 @@ https://towardsdatascience.com/catboost-vs-light-gbm-vs-xgboost-5f93620723db
 
 import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 import numpy as np
@@ -35,10 +35,6 @@ y = y - np.min(y)
 X = X.values  #covert to numpy array
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state=0)
 
-
-forest = RandomForestClassifier(criterion='entropy', n_estimators=20, random_state=1, n_jobs=2)
-forest.fit(X_train, y_train)
-print( "score: {}".format( forest.score(X_test, y_test) ) )
 
 gbt = GradientBoostingClassifier( n_estimators=100, learning_rate=0.1, random_state=1)
 gbt.fit(X_train, y_train)
