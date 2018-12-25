@@ -10,7 +10,6 @@ import pandas as pd
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.model_selection import train_test_split
-from matplotlib import pyplot as plt
 import numpy as np
 
 df_wine = pd.read_csv('../Data/winequality-red.csv', sep=';')
